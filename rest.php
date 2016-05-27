@@ -18,7 +18,7 @@
  * for more details. 
  *
  * @author Corey Maynard <http://coreymaynard.com/>
- * @author Rafał Przetakowski <rprzetakowski@pr-projektos.pl>
+ * @author Rafał Przetakowski <rafal.p@beeflow.co.uk>
  */
 session_start();
 

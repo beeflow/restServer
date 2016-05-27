@@ -5,7 +5,7 @@
  * Version:       1.0  
  * 
  * @author Corey Maynard <http://coreymaynard.com/>
- * @author Rafał Przetakowski <rprzetakowski@pr-projektos.pl>
+ * @author Rafał Przetakowski <rafal.p@beeflow.co.uk>
  * 
  * 
  * GNU General Public License (Version 2, June 1991) 
@@ -132,18 +132,25 @@ class restServer {
 	 */
 	public function processAPI() {
 		$className = $this->endpoint;
-		if (!in_array($className, $this->registeredObjects)) {	
-			return $this->_response(array("Error" => $this->_requestStatus(400)), 400);
+		if (!in_array($className, $this->registeredObjects)) {
+			return $this->_response(array("reponse" => array(), "errors" => array($this->_requestStatus(400))), 400);
 		}
 
 		$newObject = new $className($this->method, $this->request, $this->file);
 		$objectMethods = get_class_methods($className);
 
 		if ((int) method_exists($newObject, $this->objectMethod) > 0 && in_array($this->objectMethod, $objectMethods)) {
-			$response = $newObject->{$this->objectMethod}($this->args);
-			return $this->_response($response);
+			$resp = $newObject->{$this->objectMethod}($this->args);
+			if (isset($resp['status'])) {
+				$status = $resp['status'];
+				$response = $resp['response'];
+			} else {
+				$status = 200;
+				$response = $resp;
+			}
+			return $this->_response($response, $status);
 		}
-		return $this->_response(array("Error" => $this->_requestStatus(400)), 400);
+		return $this->_response(array("reponse" => array(), "errors" => array($this->_requestStatus(400))), 400);
 	}
 
 	/**

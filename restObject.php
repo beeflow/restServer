@@ -17,7 +17,7 @@
  * PARTICULAR PURPOSE. See the GNU General Public License 
  * for more details. 
  * 
- * @author Rafał Przetakowski <rprzetakowski@pr-projektos.pl>
+ * @author Rafał Przetakowski <rafal.p@beeflow.co.uk>
  */
 abstract class restObject {
 
@@ -70,19 +70,19 @@ abstract class restObject {
 	public function haveToBeLogged() {
 		if (!isset($_SESSION['auth_id'])) {
 			$this->setError("401 Unauthorized");
-			return $this->getResponse();
+			return $this->getResponse(401);
 		} else {
 			return true;
 		}
 	}
 
 	/**
-	 * 
+	 * @param integer $status - status code
 	 * @return array
 	 */
-	protected function getResponse() {
-		$response = array("response" => $this->respponse, "errors" => $this->errors);
-		return $response;
+	protected function getResponse($status = 200) {
+		$response = array("response" => $this->response, "errors" => $this->errors);
+		return array('response' => $response, 'status' => $status);
 	}
 
 	/**

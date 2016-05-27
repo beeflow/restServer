@@ -17,7 +17,7 @@
  * PARTICULAR PURPOSE. See the GNU General Public License 
  * for more details. 
  *
- * @author Rafał Przetakowski <rprzetakowski@pr-projektos.pl>
+ * @author Rafał Przetakowski <rafal.p@beeflow.co.uk>
  */
 class User extends restObject {
 
@@ -95,7 +95,7 @@ class User extends restObject {
 		}
 		
 		if (!$this->isMethodCorrect('GET')) {
-			return $this->getResponse();
+			return $this->getResponse(405);
 		}
 		
 		$this->setIdFromRequest($id);
